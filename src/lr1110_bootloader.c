@@ -189,7 +189,7 @@ lr1110_status_t lr1110_bootloader_write_flash( const void* context, const uint32
     uint8_t cbuffer[LR1110_BL_WRITE_FLASH_CMD_LENGTH];
     uint8_t cdata[256];
 
-    lr1110_bootloader_fill_cbuffer_cdata_flash( cbuffer, cdata, LR1110_BL_WRITE_FLASH_OC, offset, data, length );
+    lr1110_bootloader_fill_cbuffer_cdata_flash( cbuffer, cdata, (unsigned)LR1110_BL_WRITE_FLASH_OC, offset, data, length );
 
     return ( lr1110_status_t ) lr1110_hal_write( context, cbuffer, LR1110_BL_WRITE_FLASH_CMD_LENGTH, cdata,
                                                  length * sizeof( uint32_t ) );
@@ -223,7 +223,7 @@ lr1110_status_t lr1110_bootloader_write_flash_encrypted( const void* context, co
     uint8_t cbuffer[LR1110_BL_WRITE_FLASH_ENCRYPTED_CMD_LENGTH];
     uint8_t cdata[256];
 
-    lr1110_bootloader_fill_cbuffer_cdata_flash( cbuffer, cdata, LR1110_BL_WRITE_FLASH_ENCRYPTED_OC, offset, data,
+    lr1110_bootloader_fill_cbuffer_cdata_flash( cbuffer, cdata, (unsigned)LR1110_BL_WRITE_FLASH_ENCRYPTED_OC, offset, data,
                                                 length );
 
     return ( lr1110_status_t ) lr1110_hal_write( context, cbuffer, LR1110_BL_WRITE_FLASH_ENCRYPTED_CMD_LENGTH, cdata,

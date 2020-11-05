@@ -34,8 +34,27 @@
  * --- DEPENDENCIES ------------------------------------------------------------
  */
 
+#include <stdint.h>
 #include "lr1110_wifi.h"
 #include "lr1110_hal.h"
+
+/*
+ * -----------------------------------------------------------------------------
+ * --- COMPILER COMPATIBLE MACROS-----------------------------------------------------------
+ */
+
+#ifdef __GNUC__
+#define __bswap32(_x)   __builtin_bswap32(_x)
+#else /* __GNUC__ */
+
+static __inline uint32_t
+__bswap32(uint32_t _x)
+{
+
+    return ((uint32_t)((_x >> 24) | ((_x >> 8) & 0xff00) |
+        ((_x << 8) & 0xff0000) | ((_x << 24) & 0xff000000)));
+}
+#endif /* !__GNUC__ */
 
 /*
  * -----------------------------------------------------------------------------
@@ -382,21 +401,19 @@ lr1110_status_t lr1110_wifi_read_cumulative_timing( const void* context, lr1110_
         ( uint8_t )( LR1110_WIFI_READ_CUMUL_TIMING_OC >> 8 ),
         ( uint8_t )( LR1110_WIFI_READ_CUMUL_TIMING_OC & 0x00FF ),
     };
-    uint8_t buffer_out[LR1110_WIFI_ALL_CUMULATIVE_TIMING_SIZE] = { 0 };
+    union {
+        uint8_t  bytes[LR1110_WIFI_ALL_CUMULATIVE_TIMING_SIZE];
+        uint32_t longs[LR1110_WIFI_ALL_CUMULATIVE_TIMING_SIZE/4];
+    } buffer_out =  { 0 };
 
-    const lr1110_hal_status_t hal_status = lr1110_hal_read( context, cbuffer, LR1110_WIFI_READ_CUMUL_TIMING_CMD_LENGTH,
-                                                            buffer_out, LR1110_WIFI_ALL_CUMULATIVE_TIMING_SIZE );
+    const lr1110_hal_status_t hal_status = lr1110_hal_read( context, cbuffer, LR1110_WIFI_READ_CUMUL_TIMING_CMD_LENGTH, buffer_out.bytes,
+                     LR1110_WIFI_ALL_CUMULATIVE_TIMING_SIZE );
 
-    if( hal_status == LR1110_HAL_STATUS_OK )
-    {
-        timing->rx_detection_us =
-            ( buffer_out[0] << 24 ) + ( buffer_out[1] << 16 ) + ( buffer_out[2] << 8 ) + buffer_out[3];
-        timing->rx_correlation_us =
-            ( buffer_out[4] << 24 ) + ( buffer_out[5] << 16 ) + ( buffer_out[6] << 8 ) + buffer_out[7];
-        timing->rx_capture_us =
-            ( buffer_out[8] << 24 ) + ( buffer_out[9] << 16 ) + ( buffer_out[10] << 8 ) + buffer_out[11];
-        timing->demodulation_us =
-            ( buffer_out[12] << 24 ) + ( buffer_out[13] << 16 ) + ( buffer_out[14] << 8 ) + buffer_out[15];
+    if( hal_status == LR1110_HAL_STATUS_OK ) {
+    timing->rx_detection_us     = __bswap32(buffer_out.longs[0]);
+    timing->rx_correlation_us   = __bswap32(buffer_out.longs[1]);
+    timing->rx_capture_us       = __bswap32(buffer_out.longs[2]);
+    timing->demodulation_us     = __bswap32(buffer_out.longs[3]);
     }
     return ( lr1110_status_t ) hal_status;
 }

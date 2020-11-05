@@ -77,33 +77,35 @@ typedef uint8_t lr1110_system_uid_t[LR1110_SYSTEM_UID_LENGTH];
 typedef uint8_t lr1110_system_join_eui_t[LR1110_SYSTEM_JOIN_EUI_LENGTH];
 typedef uint8_t lr1110_system_pin_t[LR1110_SYSTEM_PIN_LENGTH];
 
-enum lr1110_system_irq_e
-{
-    LR1110_SYSTEM_IRQ_NONE                   = ( 0 << 0 ),
-    LR1110_SYSTEM_IRQ_TX_DONE                = ( 1 << 2 ),
-    LR1110_SYSTEM_IRQ_RX_DONE                = ( 1 << 3 ),
-    LR1110_SYSTEM_IRQ_PREAMBLE_DETECTED      = ( 1 << 4 ),
-    LR1110_SYSTEM_IRQ_SYNC_WORD_HEADER_VALID = ( 1 << 5 ),
-    LR1110_SYSTEM_IRQ_HEADER_ERROR           = ( 1 << 6 ),
-    LR1110_SYSTEM_IRQ_CRC_ERROR              = ( 1 << 7 ),
-    LR1110_SYSTEM_IRQ_CAD_DONE               = ( 1 << 8 ),
-    LR1110_SYSTEM_IRQ_CAD_DETECTED           = ( 1 << 9 ),
-    LR1110_SYSTEM_IRQ_TIMEOUT                = ( 1 << 10 ),
-    LR1110_SYSTEM_IRQ_GNSS_SCAN_DONE         = ( 1 << 19 ),
-    LR1110_SYSTEM_IRQ_WIFI_SCAN_DONE         = ( 1 << 20 ),
-    LR1110_SYSTEM_IRQ_EOL                    = ( 1 << 21 ),
-    LR1110_SYSTEM_IRQ_CMD_ERROR              = ( 1 << 22 ),
-    LR1110_SYSTEM_IRQ_ERROR                  = ( 1 << 23 ),
-    LR1110_SYSTEM_IRQ_FSK_LEN_ERROR          = ( 1 << 24 ),
-    LR1110_SYSTEM_IRQ_FSK_ADDR_ERROR         = ( 1 << 25 ),
-    LR1110_SYSTEM_IRQ_ALL_MASK =
-        LR1110_SYSTEM_IRQ_TX_DONE | LR1110_SYSTEM_IRQ_RX_DONE | LR1110_SYSTEM_IRQ_PREAMBLE_DETECTED |
-        LR1110_SYSTEM_IRQ_SYNC_WORD_HEADER_VALID | LR1110_SYSTEM_IRQ_HEADER_ERROR | LR1110_SYSTEM_IRQ_CRC_ERROR |
-        LR1110_SYSTEM_IRQ_CAD_DONE | LR1110_SYSTEM_IRQ_CAD_DETECTED | LR1110_SYSTEM_IRQ_TIMEOUT |
-        LR1110_SYSTEM_IRQ_GNSS_SCAN_DONE | LR1110_SYSTEM_IRQ_WIFI_SCAN_DONE | LR1110_SYSTEM_IRQ_EOL |
-        LR1110_SYSTEM_IRQ_CMD_ERROR | LR1110_SYSTEM_IRQ_ERROR | LR1110_SYSTEM_IRQ_FSK_LEN_ERROR |
-        LR1110_SYSTEM_IRQ_FSK_ADDR_ERROR,
-};
+//enum lr1110_system_irq_e
+#define    LR1110_SYSTEM_IRQ_NONE                 ( 0 )
+#define    LR1110_SYSTEM_IRQ_TXDONE               ( 1 << 2 )
+#define    LR1110_SYSTEM_IRQ_RXDONE               ( 1 << 3 )
+#define    LR1110_SYSTEM_IRQ_PREAMBLEDETECTED     ( 1 << 4 )
+#define    LR1110_SYSTEM_IRQ_SYNCWORD_HEADERVALID ( 1 << 5 )
+#define    LR1110_SYSTEM_IRQ_HEADERERR            ( 1 << 6 )
+#define    LR1110_SYSTEM_IRQ_CRCERR               ( 1 << 7 )
+#define    LR1110_SYSTEM_IRQ_CADDONE              ( 1 << 8 )
+#define    LR1110_SYSTEM_IRQ_CADDETECTED          ( 1 << 9 )
+#define    LR1110_SYSTEM_IRQ_TIMEOUT              ( 1 << 10 )
+#define    LR1110_SYSTEM_IRQ_GNSSSCANDONE         ( 1ul << 19 )
+#define    LR1110_SYSTEM_IRQ_WIFISCANDONE         ( 1ul << 20 )
+#define    LR1110_SYSTEM_IRQ_EOL                  ( 1ul << 21 )
+#define    LR1110_SYSTEM_IRQ_CMDERR               ( 1ul << 22 )
+#define    LR1110_SYSTEM_IRQ_ERR                  ( 1ul << 23 )
+#define    LR1110_SYSTEM_IRQ_FSK_LENGTH_ERROR     ( 1ul << 24 )
+#define    LR1110_SYSTEM_IRQ_FSK_ADDRESS_ERROR    ( 1ul << 25 )
+#define    LR1110_SYSTEM_IRQ_ALL                  ( \
+        LR1110_SYSTEM_IRQ_TXDONE | LR1110_SYSTEM_IRQ_RXDONE \
+        | LR1110_SYSTEM_IRQ_PREAMBLEDETECTED \
+        | LR1110_SYSTEM_IRQ_SYNCWORD_HEADERVALID \
+        | LR1110_SYSTEM_IRQ_HEADERERR   | LR1110_SYSTEM_IRQ_CRCERR \
+        | LR1110_SYSTEM_IRQ_CADDONE     | LR1110_SYSTEM_IRQ_CADDETECTED \
+        | LR1110_SYSTEM_IRQ_TIMEOUT \
+        | LR1110_SYSTEM_IRQ_GNSSSCANDONE        | LR1110_SYSTEM_IRQ_WIFISCANDONE \
+        | LR1110_SYSTEM_IRQ_EOL \
+        | LR1110_SYSTEM_IRQ_CMDERR              | LR1110_SYSTEM_IRQ_ERR \
+        | LR1110_SYSTEM_IRQ_FSK_LENGTH_ERROR    | LR1110_SYSTEM_IRQ_FSK_ADDRESS_ERROR )
 
 enum lr1110_system_calibration_e
 {
